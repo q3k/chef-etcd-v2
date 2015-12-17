@@ -101,8 +101,10 @@ module ETCD
 
           Chef::Log.info("etcd_service[#{ new_resource.name }] Using etcd discovery")
           etcd_arguments << "-discovery '#{ new_resource.discovery_service }'"
-          etcd_arguments << "-discovery-fallback #{ new_resource.discovery_fallback }"
-          etcd_arguments << "-discovery-proxy #{ new_resource.discovery_proxy }"
+          if new_resource.discovery_fallback
+              etcd_arguments << "-discovery-fallback #{ new_resource.discovery_fallback }"
+              etcd_arguments << "-discovery-proxy #{ new_resource.discovery_proxy }"
+          end
 
         when :dns
           Chef::Application.fatal!('Attribte discovery_domain is required for :dns '\
